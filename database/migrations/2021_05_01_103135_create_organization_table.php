@@ -21,7 +21,7 @@ class CreateOrganizationTable extends Migration
             $table->string('office', 255)->comment('кабинет организации');
         });
 
-        //        создание внешнего ключа из таблицы data
+        // создание внешнего ключа из таблицы data
         Schema::table('data', function($table) {
             $table->foreign('organization_id')->references('id')->on('organization');
         });
@@ -34,7 +34,7 @@ class CreateOrganizationTable extends Migration
      */
     public function down()
     {
-        //        удаление внешнего ключа из таблицы data
+        // удаление внешнего ключа из таблицы data
         Schema::table('data', function (Blueprint $table) {
             $table->dropForeign('data_organization_id_foreign');
         });

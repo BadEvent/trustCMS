@@ -20,8 +20,6 @@ class CreateUsersTable extends Migration
             $table->string('password', 255)->comment('пароль пользователя');
             $table->integer('role_id')->unsigned()->comment('1 - Супер админ, 2 - Админ, 3 - Меренджер, 4 - Пользователь');
             $table->integer('data_id')->unsigned()->comment('id всей информации пользователя');
-//            role_id - внешний ключ для таблицы roles
-//            data_id - внешний ключ для таблицы data
         });
     }
 

@@ -27,15 +27,13 @@ class CreateTaskTable extends Migration
             $table->integer('priority')->comment('приоритет (1-9, 1 - наивысший, 9 - наименьший)');
         });
 
-        Schema::table('task', function($table) {
+        Schema::table('task', function ($table) {
             $table->foreign('holder_id')->references('id')->on('users');
             $table->foreign('implementer_id')->references('id')->on('users');
             $table->foreign('viewer_id')->references('id')->on('users');
-        });
-
-        Schema::table('task', function($table) {
             $table->foreign('organization_id')->references('id')->on('organization');
         });
+
     }
 
     /**
@@ -45,6 +43,14 @@ class CreateTaskTable extends Migration
      */
     public function down()
     {
+        // удаление внешнего ключа из таблицы users
+        Schema::table('task', function (Blueprint $table) {
+            $table->dropForeign('task_holder_id_foreign');
+            $table->dropForeign('task_implementer_id_foreign');
+            $table->dropForeign('task_viewer_id_foreign');
+            $table->dropForeign('task_organization_id_foreign');
+        });
+
         Schema::dropIfExists('task');
     }
 }
