@@ -14,3 +14,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [\App\Http\Controllers\MainPageController::class, 'index'])->name('index');
+
+Route::get('/login', [\App\Http\Controllers\Auth\LoginController::class, 'login'])->name('login');
+Route::get('/logout', [\App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
