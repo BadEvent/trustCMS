@@ -4,6 +4,19 @@
     <div class="wrapper">
         <main class="main">
             <div class="container">
+                <div class="breadcrumbs">
+                    @foreach($breadcrumbs as $breadcrumb)
+                        @if(!$breadcrumb['active'])
+                            <div class="breadcrumbs__list"><a class="breadcrumbs__item"
+                                                              href="{{ $breadcrumb['link'] }}">{{ $breadcrumb['title'] }}</a><i
+                                    class="fal fa-chevron-right"></i></div>
+                        @else
+                            <div class="breadcrumbs__list"><a class="breadcrumbs__item breadcrumbs__item-active"
+                                                              href="{{ $breadcrumb['link'] }}">{{ $breadcrumb['title'] }}</a>
+                            </div>
+                        @endif
+                    @endforeach
+                </div>
                 <form class="form" action="" method="post">
                     {{ csrf_field() }}
                     <div class="form__wrapper">

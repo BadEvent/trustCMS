@@ -6,7 +6,6 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
 class RegisterController extends Controller
@@ -30,7 +29,6 @@ class RegisterController extends Controller
                 'active' => true,
             ]
         ];
-
         return view('auth.register', $data);
     }
 
