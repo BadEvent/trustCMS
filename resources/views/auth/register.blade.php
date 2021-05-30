@@ -63,6 +63,34 @@
                                    placeholder="Введите свой телефон" required>
                         </div>
                         <div class="form__group">
+                            <label class="form__label" for="organizationName">
+                                Название организации <span class="form__required"> *</span>
+                            </label>
+                            <input class="form__input" name="organizationName" type="text" id="organizationName"
+                                   placeholder="Введите название организации" required>
+                        </div>
+                        <div class="form__group">
+                            <label class="form__label" for="address">
+                                Адресс организации <span class="form__required"> *</span>
+                            </label>
+                            <input class="form__input" name="address" type="text" id="address"
+                                   placeholder="Введите адресс организации" required>
+                        </div>
+                        <div class="form__group">
+                            <label class="form__label" for="housing">
+                                Корпус здания <span class="form__required"></span>
+                            </label>
+                            <input class="form__input" name="housing" type="text" id="housing"
+                                   placeholder="Введите корпус здания">
+                        </div>
+                        <div class="form__group">
+                            <label class="form__label" for="office">
+                                Кабинет <span class="form__required"></span>
+                            </label>
+                            <input class="form__input" name="office" type="text" id="office"
+                                   placeholder="Введите кабинет">
+                        </div>
+                        <div class="form__group">
                             <button class="btn btn-dark from__btn">Зарегистрироваться</button>
                         </div>
                         <a href="{{ route('login') }}">У вас уже есть аккаунт? Войти!</a>

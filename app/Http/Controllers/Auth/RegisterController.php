@@ -37,11 +37,29 @@ class RegisterController extends Controller
         $userModel = new User;
 
         $user = $request->all();
+
+        //users
         $userData = [
             'login' => $user['login'],
             'password' => $user['password'],
             'email' => $user['email'],
             'role_id' => 4,
+        ];
+
+        //data
+        $userDataFull = [
+            'first_name' => $user['firstName'],
+            'second_name' => $user['secondName'],
+            'phone' => $user['phone'],
+            'organization_id' => 1,
+        ];
+
+        //organization
+        $userOrganization = [
+            'first_name' => $user['firstName'],
+            'second_name' => $user['secondName'],
+            'phone' => $user['phone'],
+            'organization_id' => 1,
         ];
 
         $userModel->createUser($userData);
