@@ -22,10 +22,12 @@ class RegisterController extends Controller
             [
                 'title' => 'Главная',
                 'link' => route('index'),
+                'active' => false,
             ],
             [
                 'title' => $pageTitle,
                 'link' => route('register'),
+                'active' => true,
             ]
         ];
 
