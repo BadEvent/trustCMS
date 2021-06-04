@@ -16,7 +16,7 @@ class LoginController extends Controller
         //code here
 
         $data['title'] = $pageTitle;
-        $data['user'] = $this->user;
+        $data['user'] = '$this->user';
         $data['breadcrumbs'] = [
             [
                 'title' => 'Главная',
@@ -30,6 +30,32 @@ class LoginController extends Controller
             ]
         ];
         return view('auth.login', $data);
+    }
+
+    public function loginPost(Request $request)
+    {
+
+        $pageTitle = 'Авторизация';
+        $status = null;
+
+        //code here
+
+        $data['title'] = $pageTitle;
+        $data['user'] = '$this->user';
+        $data['breadcrumbs'] = [
+            [
+                'title' => 'Главная',
+                'link' => route('index'),
+                'active' => false,
+            ],
+            [
+                'title' => $pageTitle,
+                'link' => route('login'),
+                'active' => true,
+            ]
+        ];
+        return view('auth.login', $data)->with('status', $status);
+
     }
 
     public function logout()

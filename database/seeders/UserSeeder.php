@@ -17,7 +17,7 @@ class UserSeeder extends Seeder
         DB::table('users')->insert([
             'login' => 'superadmin',
             'email' => 'superadmin@admin.com',
-            'password' => 'superadmin',
+            'password' => md5('superadmin'),
             'role_id' => '1',
             'data_id' => '1',
         ]);

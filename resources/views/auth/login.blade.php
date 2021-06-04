@@ -24,13 +24,13 @@
                             <label class="form__label" for="login">
                                 Ваш логин
                             </label>
-                            <input class="form__input" id="login" type="text" placeholder="Введите свой логин">
+                            <input class="form__input" name="login" id="login" type="text" placeholder="Введите свой логин">
                         </div>
                         <div class="form__group">
                             <label class="form__label" for="password">
                                 Ваш пароль
                             </label>
-                            <input class="form__input" id="password" type="password" placeholder="Введите свой пароль">
+                            <input class="form__input" name="password" id="password" type="password" placeholder="Введите свой пароль">
                         </div>
                         <div class="form__group">
                             <button class="btn btn-dark from__btn">Войти</button>

@@ -13,16 +13,4 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public $user;
-
-    public function __construct(Request $request)
-    {
-        if (!$request->session()->has('user')) {
-            return $this->user = null;
-        } else {
-            return $this->user = $request->session()->get('user')[0];
-        }
-    }
-
-
 }

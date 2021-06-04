@@ -17,6 +17,9 @@
                         @endif
                     @endforeach
                 </div>
+                @if(isset($status))
+                <h1>{{ $status }}</h1>
+                @endif
                 <form class="form" action="" method="post">
                     {{ csrf_field() }}
                     <div class="form__wrapper">

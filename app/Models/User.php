@@ -9,6 +9,8 @@ class User extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $table = 'users';
 
     public function createUser($userData)
@@ -16,4 +18,16 @@ class User extends Model
         User::insert($userData);
 //        return true;
     }
+
+    public function validationLoginUser($login)
+    {
+        return User::where('login', '=', $login)->count();
+    }
+
+    public function validationEmailUser($email)
+    {
+        return User::where('email', '=', $email)->count();
+    }
+
+
 }
