@@ -17,9 +17,20 @@
                         @endif
                     @endforeach
                 </div>
-                @if(isset($status))
-                <h1>{{ $status }}</h1>
-                @endif
+                <div class="container-sm">
+                    @if(isset($status) && $status)
+                        <div class="alert alert-danger">
+                            <div class="alert__icon">
+                                <i class="fal fa-bullhorn"></i>
+                            </div>
+                            <div class="alert__text">{{ $status }}
+                            </div>
+                            <div class="alert__close_btn">
+                                <i class="fal fa-times"></i>
+                            </div>
+                        </div>
+                    @endif
+                </div>
                 <form class="form" action="" method="post">
                     {{ csrf_field() }}
                     <div class="form__wrapper">
