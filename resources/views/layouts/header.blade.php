@@ -13,6 +13,7 @@
 <header class="header">
     <div class="header__container">
         <div class="logo col-8 col-md-auto ">Trust TMS</div>
+
         @if(!is_null($user))
             <div class="header__menu ">
                 <div class="menu__icon">

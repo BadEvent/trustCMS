@@ -9,14 +9,21 @@ use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
-    public function login()
+    public function login(Request $request)
     {
+        /*************** user auth ******************/
+        if (!$request->session()->has('user')) {
+            $user = null;
+        }else{
+            return redirect()->back();
+        }
+        /*************** user auth ******************/
         $pageTitle = 'Авторизация';
 
         //code here
 
         $data['title'] = $pageTitle;
-        $data['user'] = '$this->user';
+        $data['user'] = $user;
         $data['breadcrumbs'] = [
             [
                 'title' => 'Главная',

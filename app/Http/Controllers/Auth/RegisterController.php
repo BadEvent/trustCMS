@@ -13,8 +13,15 @@ use Illuminate\Support\Facades\Session;
 class RegisterController extends Controller
 {
 
-    public function register()
+    public function register(Request $request)
     {
+        /*************** user auth ******************/
+        if (!$request->session()->has('user')) {
+            $user = null;
+        }else{
+            return redirect()->back();
+        }
+        /*************** user auth ******************/
         $pageTitle = 'Регистрация';
 
         $data['status'] = false;

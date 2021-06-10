@@ -10,7 +10,7 @@ class MainPageController extends Controller
 {
     public function index(Request $request)
     {
-
+        /*************** user auth ******************/
         if (!$request->session()->has('user')) {
             return redirect()->route('login');
         }
@@ -18,6 +18,7 @@ class MainPageController extends Controller
         if ($user->group !== 1) {
             return redirect()->route('index');
         }
+        /*************** user auth ******************/
 
         $data['user'] = $user;
         return view('index', $data);
