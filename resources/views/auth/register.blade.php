@@ -4,111 +4,80 @@
     <div class="wrapper">
         <main class="main">
             <div class="container">
-                <div class="breadcrumbs">
-                    @foreach($breadcrumbs as $breadcrumb)
-                        @if(!$breadcrumb['active'])
-                            <div class="breadcrumbs__list"><a class="breadcrumbs__item"
-                                                              href="{{ $breadcrumb['link'] }}">{{ $breadcrumb['title'] }}</a><i
-                                    class="fal fa-chevron-right"></i></div>
-                        @else
-                            <div class="breadcrumbs__list"><a class="breadcrumbs__item breadcrumbs__item-active"
-                                                              href="{{ $breadcrumb['link'] }}">{{ $breadcrumb['title'] }}</a>
-                            </div>
-                        @endif
-                    @endforeach
-                </div>
-                <div class="container-sm">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        @foreach($breadcrumbs as $breadcrumb)
+                            @if(!$breadcrumb['active'])
+                                <li class="breadcrumb-item"><a
+                                        href="{{ $breadcrumb['link'] }}">{{ $breadcrumb['title'] }}</a></li>
+                            @else
+                                <li class="breadcrumb-item active" aria-current="page">{{ $breadcrumb['title'] }}</li>
+                            @endif
+                        @endforeach
+                    </ol>
+                </nav>
+                <div class="container">
                     @if(isset($status) && $status)
-                        <div class="alert alert-danger">
-                            <div class="alert__icon">
-                                <i class="fal fa-bullhorn"></i>
-                            </div>
-                            <div class="alert__text">{{ $status }}
-                            </div>
-                            <div class="alert__close_btn">
-                                <i class="fal fa-times"></i>
-                            </div>
+                        <div
+                            class="alert alert-dismissible fade show {{ $status['type'] == 1 ? 'alert-success' : 'alert-danger' }}"
+                            role="alert">
+                            {{ $status['text'] }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     @endif
                 </div>
-                <form class="form" action="" method="post">
+                <form method="post">
                     {{ csrf_field() }}
                     <div class="form__wrapper">
-                        <div class="form__group">
-                            <label class="form__label" for="login">
-                                Ваш логин <span class="form__required"> *</span>
-                            </label>
-                            <input class="form__input" name="login" type="text" id="login"
-                                   placeholder="Введите свой логин" required>
+                        <div class="mb-3">
+                            <label for="login" class="form-label">Ваш логин:</label>
+                            <input type="text" name="login" class="form-control" id="login">
                         </div>
-                        <div class="form__group">
-                            <label class="form__label" for="password">
-                                Ваш пароль <span class="form__required"> *</span>
-                            </label>
-                            <input class="form__input" name="password" type="password" id="password"
-                                   placeholder="Введите свой пароль" required>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Ваш пароль:</label>
+                            <input type="password" name="password" class="form-control" id="password">
                         </div>
-                        <div class="form__group">
-                            <label class="form__label" for="email">
-                                Ваш email <span class="form__required"> *</span>
-                            </label>
-                            <input class="form__input" name="email" type="email" id="email"
-                                   placeholder="Введите свою почту" required>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Ваш email:</label>
+                            <input type="email" name="email" class="form-control" id="email"
+                                   aria-describedby="emailHelp">
+                            <div id="emailHelp" class="form-text">Мы никогда никому не передадим вашу электронную
+                                почту.
+                            </div>
                         </div>
-                        <div class="form__group">
-                            <label class="form__label" for="firstName">
-                                Ваше имя <span class="form__required"> *</span>
-                            </label>
-                            <input class="form__input" name="firstName" type="text" id="firstName"
-                                   placeholder="Введите свое имя" required>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Ваше имя:</label>
+                            <input type="text" name="firstName" class="form-control" id="name">
                         </div>
-                        <div class="form__group">
-                            <label class="form__label" for="secondName">
-                                Ваша фамилия <span class="form__required"> *</span>
-                            </label>
-                            <input class="form__input" name="secondName" type="text" id="secondName"
-                                   placeholder="Введите свою фамилию" required>
+                        <div class="mb-3">
+                            <label for="secondName" class="form-label">Ваша фамилия:</label>
+                            <input type="text" name="secondName" class="form-control" id="secondName">
                         </div>
-                        <div class="form__group">
-                            <label class="form__label" for="phone">
-                                Ваш телефон <span class="form__required"> *</span>
-                            </label>
-                            <input class="form__input" name="phone" type="phone" id="phone"
-                                   placeholder="Введите свой телефон" required>
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">Ваш телефон:</label>
+                            <input type="tel" name="phone" class="form-control" id="phone">
                         </div>
-                        <div class="form__group">
-                            <label class="form__label" for="organizationName">
-                                Название организации <span class="form__required"> *</span>
-                            </label>
-                            <input class="form__input" name="organizationName" type="text" id="organizationName"
-                                   placeholder="Введите название организации" required>
+                        <div class="mb-3">
+                            <label for="organizationName" class="form-label">Название организации:</label>
+                            <input type="text" name="organizationName" class="form-control" id="organizationName">
                         </div>
-                        <div class="form__group">
-                            <label class="form__label" for="address">
-                                Адресс организации <span class="form__required"> *</span>
-                            </label>
-                            <input class="form__input" name="address" type="text" id="address"
-                                   placeholder="Введите адресс организации" required>
+                        <div class="mb-3">
+                            <label for="address" class="form-label">Адресс организации:</label>
+                            <input type="text" name="address" class="form-control" id="address">
                         </div>
-                        <div class="form__group">
-                            <label class="form__label" for="housing">
-                                Корпус здания <span class="form__required"></span>
-                            </label>
-                            <input class="form__input" name="housing" type="text" id="housing"
-                                   placeholder="Введите корпус здания">
+                        <div class="mb-3">
+                            <label for="housing" class="form-label">Корпус здания:</label>
+                            <input type="text" name="housing" class="form-control" id="housing">
                         </div>
-                        <div class="form__group">
-                            <label class="form__label" for="office">
-                                Кабинет <span class="form__required"></span>
-                            </label>
-                            <input class="form__input" name="office" type="text" id="office"
-                                   placeholder="Введите кабинет">
+                        <div class="mb-3">
+                            <label for="office" class="form-label">Кабинет:</label>
+                            <input type="text" name="office" class="form-control" id="office">
                         </div>
-                        <div class="form__group">
-                            <button class="btn btn-dark from__btn">Зарегистрироваться</button>
-                        </div>
-                        <a href="{{ route('login') }}">У вас уже есть аккаунт? Войти!</a>
 
+                        <button type="submit" class="btn btn-outline-success">Регистрация</button>
+                        <div class="mt-3">
+                            <a href="{{ route('register') }}">Нет аккаунта? Зарегистрируйся!</a>
+                        </div>
                     </div>
                 </form>
             </div>

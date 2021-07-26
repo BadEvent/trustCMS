@@ -20,4 +20,14 @@ class Data extends Model
     {
         return Data::latest('id')->limit(1)->get();
     }
+
+    public function getDataById(int $id)
+    {
+        return Data::where('id', '=', $id)->get();
+    }
+
+    public function getDataName(int $id)
+    {
+        return Data::where('id', '=', $id)->select(['first_name'])->first();
+    }
 }

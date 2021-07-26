@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class LoginController extends Controller
@@ -14,7 +15,7 @@ class LoginController extends Controller
         /*************** user auth ******************/
         if (!$request->session()->has('user')) {
             $user = null;
-        }else{
+        } else {
             return redirect()->back();
         }
         /*************** user auth ******************/
@@ -41,32 +42,27 @@ class LoginController extends Controller
 
     public function loginPost(Request $request)
     {
+        $userModel = new User;
 
-        $pageTitle = 'Авторизация';
-        $status = null;
+        $data = $request->all();
+        $user = $userModel->authUser($data);
 
-        //code here
+        if (!empty($user[0]) && isset($user)) {
+            $request->session()->flush();
+            $request->session()->push('user', $user[0]);
+            if ($user[0]->group !== 1) {
+                return redirect()->route('index');
+            } else {
+                return redirect()->route('admin');
+            }
+        }
 
-        $data['title'] = $pageTitle;
-        $data['user'] = '$this->user';
-        $data['breadcrumbs'] = [
-            [
-                'title' => 'Главная',
-                'link' => route('index'),
-                'active' => false,
-            ],
-            [
-                'title' => $pageTitle,
-                'link' => route('login'),
-                'active' => true,
-            ]
-        ];
-        return view('auth.login', $data)->with('status', $status);
-
+        return redirect()->route('index');
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
-        return view('auth.login');
+        $request->session()->flush();
+        return redirect()->route('login');
     }
 }

@@ -4,41 +4,37 @@
     <div class="wrapper">
         <main class="main">
             <div class="container">
-                <div class="breadcrumbs">
-                    @foreach($breadcrumbs as $breadcrumb)
-                        @if(!$breadcrumb['active'])
-                            <div class="breadcrumbs__list"><a class="breadcrumbs__item"
-                                                              href="{{ $breadcrumb['link'] }}">{{ $breadcrumb['title'] }}</a><i
-                                    class="fal fa-chevron-right"></i></div>
-                        @else
-                            <div class="breadcrumbs__list"><a class="breadcrumbs__item breadcrumbs__item-active"
-                                                              href="{{ $breadcrumb['link'] }}">{{ $breadcrumb['title'] }}</a>
-                            </div>
-                        @endif
-                    @endforeach
-                </div>
-                <form class="form" action="" method="post">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        @foreach($breadcrumbs as $breadcrumb)
+                            @if(!$breadcrumb['active'])
+                                <li class="breadcrumb-item"><a href="{{ $breadcrumb['link'] }}">{{ $breadcrumb['title'] }}</a></li>
+                            @else
+                                <li class="breadcrumb-item active" aria-current="page">{{ $breadcrumb['title'] }}</li>
+                            @endif
+                        @endforeach
+                    </ol>
+                </nav>
+                <form method="post">
                     {{ csrf_field() }}
                     <div class="form__wrapper">
-                        <div class="form__group">
-                            <label class="form__label" for="login">
-                                Ваш логин
-                            </label>
-                            <input class="form__input" name="login" id="login" type="text" placeholder="Введите свой логин">
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">Введите свой логин</label>
+                            <input type="text" name="login" class="form-control" id="exampleInputEmail1"
+                                   aria-describedby="emailHelp">
+                            {{--                        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>--}}
                         </div>
-                        <div class="form__group">
-                            <label class="form__label" for="password">
-                                Ваш пароль
-                            </label>
-                            <input class="form__input" name="password" id="password" type="password" placeholder="Введите свой пароль">
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Введите свой пароль</label>
+                            <input type="password" name="password" class="form-control" id="exampleInputPassword1">
                         </div>
-                        <div class="form__group">
-                            <button class="btn btn-dark from__btn">Войти</button>
+                        <button type="submit" class="btn btn-outline-success">Войти</button>
+                        <div class="mt-3">
+                            <a href="{{ route('register') }}">Нет аккаунта? Зарегистрируйся!</a>
                         </div>
-                        <a href="{{ route('register') }}">Нет аккаунта? Зарегистрируйся!</a>
-
                     </div>
                 </form>
+
 
             </div>
         </main>

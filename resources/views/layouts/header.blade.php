@@ -5,72 +5,66 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style.min.css') }}?v1.0.1.3">
     <title>{{ $title }}</title>
 </head>
 <body>
 
 <header class="header">
-    <div class="header__container">
-        <div class="logo col-8 col-md-auto ">Trust TMS</div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="#">Trust 3.0</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav flex-fill mb-2 mb-lg-0">
+                    @if($user)
+                        <li class="nav-item">
+                            <a class="nav-link {{ Request::routeIs('index') ? 'active' : '' }}" aria-current="page"
+                               href="{{ route('index') }}">Главная</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle {{ Request::routeIs('taskDo', 'taskHelp', 'taskWatch', 'taskCreate', 'taskAll') ? 'active' : '' }}" href="#" id="navbarDropdown" role="button"
+                               data-bs-toggle="dropdown" aria-expanded="false">
+                                Задачи
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="{{ route('taskDo') }}">Делаю</a></li>
+                                <li><a class="dropdown-item" href="{{ route('taskHelp') }}">Помогаю</a></li>
+                                <li><a class="dropdown-item" href="{{ route('taskWatch') }}">Наблюдаю</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="{{ route('taskCreate') }}">Создать задачу</a></li>
+                                <li><a class="dropdown-item" href="{{ route('taskAll') }}">Все задачи</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Редактор</a>
+                        </li>
+                        <div class="flex-fill text-align-right">
+                            <li class="nav-item">
+                                <input type="hidden" value="{{ $data = new \App\Models\Data}}">
+                                <a class="nav-link" href="{{ route('logout') }}">Выход ({{ $data->getDataName($user->data_id)->first_name }})</a>
+                            </li>
+                        </div>
 
-        @if(!is_null($user))
-            <div class="header__menu ">
-                <div class="menu__icon">
-                    <span></span>
-                </div>
-                <nav class="menu">
-                    <ul class="menu__list">
-                        <li class="menu__item"><a href="{{ route('index') }}" class="menu__item-link">Главная</a></li>
-                        <li class="menu__item">
-                            <a href="#" class="menu__item-link">Задачи</a>
-                            <i class="fal fa-sort-down menu__arrow"></i>
-                            <ul class="menu__sub_list">
-                                <li class="menu__sub_item">
-                                    <a href="#" class="menu__sub_item-link">Все</a>
-                                </li>
-                                <li class="menu__sub_item">
-                                    <a href="#" class="menu__sub_item-link">Выполняю</a>
-                                </li>
-                                <li class="menu__sub_item">
-                                    <a href="#" class="menu__sub_item-link">Помогаю</a>
-                                </li>
-                            </ul>
+                    @else
+                        <li class="nav-item">
+                            <a class="nav-link {{ Request::routeIs('login') ? 'active' : '' }}"
+                               href="{{ route('login') }}">Войти</a>
                         </li>
-                        <li class="menu__item"><a href="#" class="menu__item-link">Редактор</a></li>
-                        <li class="menu__item"><a href="#" class="menu__item-link">Редактор1</a></li>
-                        <li class="menu__item">
-                            <a href="#" class="menu__item-link">Редактор2</a>
-                            <i class="fal fa-sort-down menu__arrow"></i>
-                            <ul class="menu__sub_list">
-                                <li class="menu__sub_item">
-                                    <a href="#" class="menu__sub_item-link">Все</a>
-                                </li>
-                                <li class="menu__sub_item">
-                                    <a href="#" class="menu__sub_item-link">Выполняю</a>
-                                </li>
-                                <li class="menu__sub_item">
-                                    <a href="#" class="menu__sub_item-link">Помогаю</a>
-                                </li>
-                            </ul>
+                        <li class="nav-item">
+                            <a class="nav-link {{ Request::routeIs('register') ? 'active' : '' }}"
+                               href="{{ route('register') }}">Регистрация</a>
                         </li>
-                        <li class="menu__item"><a href="#" class="menu__item-link">Редактор Редактор</a></li>
-                    </ul>
-                </nav>
+                    @endif
+                </ul>
             </div>
-        @endif
-        <div class=" menu__login_control-block">
-            @if(is_null($user))
-                <a class="menu__login_control" href="{{ route('login') }}">
-                    <i class="fal fa-lg fa-user"></i>
-                </a>
-            @endif
-            @if(!is_null($user))
-                <a class="menu__login_control" href="{{ route('logout') }}">
-                    <i class="fal fa-lg fa-sign-out"></i>
-                </a>
-            @endif
         </div>
-
-    </div>
+    </nav>
 </header>

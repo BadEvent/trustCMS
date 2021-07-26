@@ -18,7 +18,7 @@ class RegisterController extends Controller
         /*************** user auth ******************/
         if (!$request->session()->has('user')) {
             $user = null;
-        }else{
+        } else {
             return redirect()->back();
         }
         /*************** user auth ******************/
@@ -51,17 +51,26 @@ class RegisterController extends Controller
         $userModel = new User;
         $dataModel = new Data;
 
-        $status = null;
+        $status = [
+            'type' => 1,
+            'text' => 'Вы успешно зарегистрировались!',
+        ];
 
         $user = $request->all();
 
-        if ($userModel->validationLoginUser($user['login'])){
-            $status = 'Этот логин уже занят';
+        if ($userModel->validationLoginUser($user['login'])) {
+            $status = [
+                'type' => 2,
+                'text' => 'Этот логин уже занят',
+            ];
             return redirect()->route('register')->with('status', $status);
         }
 
-        if ($userModel->validationEmailUser($user['email'])){
-            $status = 'Этот email уже занят';
+        if ($userModel->validationEmailUser($user['email'])) {
+            $status = [
+                'type' => 2,
+                'text' => 'Этот email уже занят',
+            ];
             return redirect()->route('register')->with('status', $status);
         }
 
@@ -86,7 +95,5 @@ class RegisterController extends Controller
         $userModel->createUser($userData);
 
         return redirect()->route('register')->with('status', $status);
-
-
     }
 }

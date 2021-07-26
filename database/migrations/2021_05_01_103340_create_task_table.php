@@ -15,12 +15,12 @@ class CreateTaskTable extends Migration
     {
         Schema::create('task', function (Blueprint $table) {
             $table->increments('id')->comment('id задачи');
-            $table->timestamp('date_add')->comment('дата создания');
-            $table->timestamp('date_start')->comment('дата начала');
-            $table->timestamp('date_end')->comment('дата завершения');
+            $table->integer('date_add')->comment('дата создания')->nullable();
+            $table->integer('date_start')->comment('дата начала')->nullable();
+            $table->integer('date_end')->comment('дата завершения')->nullable();
+            $table->integer('deadline')->comment('крайний срок')->nullable();
             $table->integer('holder_id')->unsigned()->comment('id создателя задачи');
             $table->integer('implementer_id')->unsigned()->comment('id исполнителя');
-            $table->integer('viewer_id')->unsigned()->comment('id наблюдателя');
             $table->integer('organization_id')->unsigned()->comment('id организации');
             $table->string('title', 255)->comment('заголовок задачи');
             $table->longText('data')->comment('вся информация по задаче');
@@ -30,7 +30,6 @@ class CreateTaskTable extends Migration
         Schema::table('task', function ($table) {
             $table->foreign('holder_id')->references('id')->on('users');
             $table->foreign('implementer_id')->references('id')->on('users');
-            $table->foreign('viewer_id')->references('id')->on('users');
             $table->foreign('organization_id')->references('id')->on('organization');
         });
 
@@ -47,7 +46,6 @@ class CreateTaskTable extends Migration
         Schema::table('task', function (Blueprint $table) {
             $table->dropForeign('task_holder_id_foreign');
             $table->dropForeign('task_implementer_id_foreign');
-            $table->dropForeign('task_viewer_id_foreign');
             $table->dropForeign('task_organization_id_foreign');
         });
 

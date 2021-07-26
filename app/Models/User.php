@@ -16,7 +16,6 @@ class User extends Model
     public function createUser($userData)
     {
         User::insert($userData);
-//        return true;
     }
 
     public function validationLoginUser($login)
@@ -24,9 +23,29 @@ class User extends Model
         return User::where('login', '=', $login)->count();
     }
 
+    public function getUserById(int $id = null)
+    {
+        return User::where('id', '=', $id)->first();
+    }
+
+    public function getLoginById(int $id = null)
+    {
+        return User::where('id', '=', $id)->select(['login'])->first();
+    }
+
     public function validationEmailUser($email)
     {
         return User::where('email', '=', $email)->count();
+    }
+
+    public function authUser($data)
+    {
+        return User::where(
+            [
+                ['login', '=', $data['login']],
+                ['password', '=', md5($data['password'])],
+            ]
+        )->get();
     }
 
 
