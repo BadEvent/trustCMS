@@ -44,31 +44,24 @@
                 @elseif($status['status'] == 2)
                 @endif
 
-                <table class="table caption-top">
-                    <caption>Лист задач</caption>
-                    <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Название</th>
-                        <th scope="col">Крайний срок</th>
-                        <th scope="col">Постановщик</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <input type="hidden" value="{{ $Data = new \App\Models\Data}}">
-                    <input type="hidden" value="{{ $User = new \App\Models\User}}">
-                    @foreach($tasks as $task)
-                        <tr>
-                            <th scope="row">{{ $task->id }}</th>
-                            <td><a href="{{ route('taskId', $task->id) }}">{{ $task->title }}</a></td>
-                            <td>{{ date('d.m.Y H:m:s', $task->deadline) }}</td>
-                            <td>{{ $Data->getDataName($task->holder_id)->first_name }}
-                                ({{ $User->getLoginById($task->holder_id)->login }})
-                            </td>
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
+                <div class="row">
+                    <div class="col-8">
+
+                    </div>
+                </div>
+
+                <div class="">
+                    title: {{ $taskId[0]->title }}
+                </div>
+                <div class="">
+                    text: {{ $taskId[0]->data }}
+                </div>
+                <div class="">
+                    deadline: {{ date('d.m.Y H:m:s', $taskId[0]->deadline) }}
+                </div>
+                <button></button>
+
+{{--                {{ dd($taskId[0]) }}--}}
             </div>
         </main>
 

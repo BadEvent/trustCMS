@@ -25,10 +25,12 @@ Route::get('/logout', [\App\Http\Controllers\Auth\LoginController::class, 'logou
 //tasks
 Route::prefix('task')->group(function () {
     Route::get('/', [\App\Http\Controllers\TaskController::class, 'taskDo'])->name('taskDo');
-    Route::get('/all', [\App\Http\Controllers\TaskController::class, 'taskDo'])->name('taskAll');
+    Route::get('/all', [\App\Http\Controllers\TaskController::class, 'taskAll'])->name('taskAll');
     Route::get('/help', [\App\Http\Controllers\TaskController::class, 'taskDo'])->name('taskHelp');
     Route::get('/watch', [\App\Http\Controllers\TaskController::class, 'taskDo'])->name('taskWatch');
     Route::get('/create', [\App\Http\Controllers\TaskController::class, 'taskDo'])->name('taskCreate');
+    Route::get('/{id}', [\App\Http\Controllers\TaskController::class, 'taskId'])->name('taskId');
+
 });
 
 

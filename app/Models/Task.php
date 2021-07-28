@@ -16,4 +16,14 @@ class Task extends Model
     {
         return Task::where('implementer_id', '=', $userId)->get();
     }
+
+    public function getTasksAll()
+    {
+        return Task::all();
+    }
+
+    public function getTaskById(int $id)
+    {
+        return Task::where('id', '=', $id)->get();
+    }
 }
