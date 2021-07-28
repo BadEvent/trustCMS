@@ -76,7 +76,7 @@
 
                         <button type="submit" class="btn btn-outline-success">Регистрация</button>
                         <div class="mt-3">
-                            <a href="{{ route('register') }}">Нет аккаунта? Зарегистрируйся!</a>
+                            <a href="{{ route('login') }}">Есть аккаунт? Входи!</a>
                         </div>
                     </div>
                 </form>
