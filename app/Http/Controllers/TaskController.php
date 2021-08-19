@@ -7,7 +7,6 @@ namespace App\Http\Controllers;
 use App\Models\Data;
 use App\Models\Task;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
@@ -17,10 +16,14 @@ class TaskController extends Controller
     public $task;
     public $pageTitle;
     public $status;
+    public $user;
+    public $data;
 
     public function __construct()
     {
         $this->task = new Task;
+        $this->user = new User;
+        $this->data = new Data;
         $this->pageTitle = 'page';
 
         // status: 1-true, 0-false, 2-dont show.
@@ -142,6 +145,10 @@ class TaskController extends Controller
 
         $taskId = $this->task->getTaskById($id);
 
+        $test = $this->user::find($user->id);
+
+        dd($test->task);
+
         $data['title'] = $this->pageTitle;
         $data['user'] = $user;
         $data['taskId'] = $taskId;
@@ -153,12 +160,23 @@ class TaskController extends Controller
                 'active' => false,
             ],
             [
-                'title' => $this->pageTitle,
+                'title' => 'Задачи',
+                'link' => route('taskDo'),
+                'active' => false,
+            ],
+            [
+                'title' => $this->pageTitle.' #'.$id,
                 'link' => route('taskAll'),
                 'active' => true,
             ],
         ];
         return view('task.taskId', $data);
+    }
+
+    public function taskEnd($id, Request $request)
+    {
+
+        dd($request);
     }
 
 }

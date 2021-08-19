@@ -14,7 +14,10 @@ class Task extends Model
 
     public function getTasksDo(int $userId)
     {
-        return Task::where('implementer_id', '=', $userId)->get();
+        return Task::where([
+            ['implementer_id', '=', $userId],
+            ['date_end', '=', null],
+        ])->get();
     }
 
     public function getTasksAll()

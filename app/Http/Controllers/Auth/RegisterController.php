@@ -29,6 +29,7 @@ class RegisterController extends Controller
             $data['status'] = Session::get('status');
         }
 
+        $data['organizationsName'] = $this->organization::groupBy('name')->pluck('name');
         $data['user'] = null;
         $data['title'] = $pageTitle;
         $data['breadcrumbs'] = [
@@ -95,5 +96,11 @@ class RegisterController extends Controller
         $userModel->createUser($userData);
 
         return redirect()->route('register')->with('status', $status);
+    }
+
+    public function getAddress(Request $request)
+    {
+        dd($request);
+        return $request;
     }
 }

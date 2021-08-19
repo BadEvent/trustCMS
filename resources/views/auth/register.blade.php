@@ -58,8 +58,17 @@
                             <input type="tel" name="phone" class="form-control" id="phone">
                         </div>
                         <div class="mb-3">
-                            <label for="organizationName" class="form-label">Название организации:</label>
-                            <input type="text" name="organizationName" class="form-control" id="organizationName">
+                            <label for="exampleDataList" class="form-label">Название организации:</label>
+                            <input class="form-control" name="organizationName" list="datalistOptions"
+                                   id="exampleDataList" placeholder="Начните вводить, чтобы найти ...">
+                            <datalist id="datalistOptions">
+                                @foreach($organizationsName as $organizationName)
+                                    <option class="organizationName" value="{{ $organizationName }}">
+                                @endforeach
+                            </datalist>
+                            <input type="hidden"
+                                   value="{{ $test = \App\Models\Organization::getAddressByName($organizationsName[1]) }}">
+
                         </div>
                         <div class="mb-3">
                             <label for="address" class="form-label">Адресс организации:</label>
@@ -82,4 +91,20 @@
                 </form>
             </div>
         </main>
+        @endsection
+        @section('script')
+            <script>
+                $(function () {
+                    $('#exampleDataList').on('change', function () {
+                        $.ajax({
+                            url: '{{ route('getAddress') }}',
+                            type: "POST",
+                            data: {organizationName: organizationName},
+                            success: function () {
+
+                            },
+                        });
+                    });
+                });
+            </script>
 @endsection

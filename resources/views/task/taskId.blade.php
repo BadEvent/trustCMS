@@ -1,5 +1,6 @@
 @extends('layouts._layout')
 @section('content')
+    <input type="hidden" value="{{ $Data = new \App\Models\Data}}">
 
     <div class="wrapper">
         <main class="main">
@@ -45,25 +46,81 @@
                 @endif
 
                 <div class="row">
-                    <div class="col-8">
+                    <div class="col-12 col-sm-9">
+                        <div class="page__block">
+                            <div class="task__title">
+                                Задача #{{ $taskId[0]->id }}: {{ $taskId[0]->title }}
+                            </div>
+                            <div class="row">
+                                <div class="col-8 row-column">
+                                    <div class="task__text">
+                                        {{ $taskId[0]->data }}
+                                    </div>
 
+                                    <div class="task__buttons">
+                                        <button class="btn btn-primary me-2">
+                                            Начать выполнение
+                                        </button>
+                                        <button class="btn btn-success" id="save">
+                                            Завершить
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="col-4 task__side_bar">
+                                    <div class="">
+                                        Крайний срок:
+                                        {{ date('d.m.y H:m', $taskId[0]->deadline) }}
+                                    </div>
+                                    <div class="">
+                                        Поручил:
+                                        {{ $Data->getDataName($taskId[0]->holder_id)->second_name }}
+                                        {{ $Data->getDataName($taskId[0]->holder_id)->first_name }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-3 mt-sm-0 mt-3">
+                        <div class="side_bar__block">
+                            test
+                        </div>
                     </div>
                 </div>
 
-                <div class="">
-                    title: {{ $taskId[0]->title }}
-                </div>
-                <div class="">
-                    text: {{ $taskId[0]->data }}
-                </div>
-                <div class="">
-                    deadline: {{ date('d.m.Y H:m:s', $taskId[0]->deadline) }}
-                </div>
-                <button></button>
 
-{{--                {{ dd($taskId[0]) }}--}}
+                {{--                {{ dd($taskId[0]) }}--}}
             </div>
         </main>
 
+        @endsection
+
+        @section('script')
+            <script>
+                $(function () {
+                    $('#save').on('click', function () {
+
+                        $.ajax({
+                            url: '{{ route('taskEnd', $taskId[0]->id) }}',
+                            type: "POST",
+                            data: {title: title, text: text},
+                            headers: {
+                                'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            success: function (data) {
+                                $('#addArticle').modal('hide');
+                                $('#articles-wrap').removeClass('hidden').addClass('show');
+                                $('.alert').removeClass('show').addClass('hidden');
+                                var str = '<tr><td>' + data['id'] +
+                                    '</td><td><a href="/article/' + data['id'] + '">' + data['title'] + '</a>' +
+                                    '</td><td><a href="/article/' + data['id'] + '" class="delete" data-delete="' + data['id'] + '">Удалить</a></td></tr>';
+                                $('.table > tbody:last').append(str);
+                            },
+                            error: function (msg) {
+                                alert('Ошибка');
+                            }
+                        });
+                    });
+                })
+            </script>
 @endsection
 

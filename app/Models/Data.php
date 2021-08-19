@@ -28,6 +28,11 @@ class Data extends Model
 
     public function getDataName(int $id)
     {
-        return Data::where('id', '=', $id)->select(['first_name'])->first();
+        return Data::where('id', '=', $id)->select(['first_name', 'second_name'])->first();
+    }
+
+    public function user_data()
+    {
+       return $this->hasOne(User::class);
     }
 }

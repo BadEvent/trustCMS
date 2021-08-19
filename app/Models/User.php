@@ -48,5 +48,10 @@ class User extends Model
         )->get();
     }
 
+    public function task()
+    {
+        return $this->hasMany(Task::class, 'implementer_id');
+    }
+
 
 }
