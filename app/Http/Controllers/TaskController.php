@@ -147,7 +147,7 @@ class TaskController extends Controller
 
         $test = $this->user::find($user->id);
 
-        dd($test->task);
+//        dd($test->task);
 
         $data['title'] = $this->pageTitle;
         $data['user'] = $user;
