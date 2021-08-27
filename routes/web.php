@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [\App\Http\Controllers\MainPageController::class, 'index'])->name('index');
+Route::get('/', [\App\Http\Controllers\MainPageController::class, 'index'])->name('index')->middleware(['checkAuth']);
 
 //auth
 Route::get('/login', [\App\Http\Controllers\Auth\LoginController::class, 'login'])->name('login');
@@ -25,15 +25,15 @@ Route::post('/register/getAddress', [\App\Http\Controllers\Auth\RegisterControll
 
 
 //tasks
-Route::prefix('task')->group(function () {
-    Route::get('/', [\App\Http\Controllers\TaskController::class, 'taskDo'])->name('taskDo');
-    Route::get('/all', [\App\Http\Controllers\TaskController::class, 'taskAll'])->name('taskAll');
-    Route::get('/help', [\App\Http\Controllers\TaskController::class, 'taskDo'])->name('taskHelp');
-    Route::get('/watch', [\App\Http\Controllers\TaskController::class, 'taskDo'])->name('taskWatch');
-    Route::get('/create', [\App\Http\Controllers\TaskController::class, 'taskDo'])->name('taskCreate');
-    Route::get('/{id}', [\App\Http\Controllers\TaskController::class, 'taskId'])->name('taskId');
-    Route::post('/end{id}', [\App\Http\Controllers\TaskController::class, 'taskEnd'])->name('taskEnd');
+Route::group(['middleware' => ['checkAuth']], function () {
+    Route::prefix('task')->group(function () {
+        Route::get('/', [\App\Http\Controllers\TaskController::class, 'taskDo'])->name('taskDo');
+        Route::get('/all', [\App\Http\Controllers\TaskController::class, 'taskAll'])->name('taskAll');
+        Route::get('/help', [\App\Http\Controllers\TaskController::class, 'taskDo'])->name('taskHelp');
+        Route::get('/watch', [\App\Http\Controllers\TaskController::class, 'taskDo'])->name('taskWatch');
+        Route::get('/create', [\App\Http\Controllers\TaskController::class, 'taskDo'])->name('taskCreate');
+        Route::get('/{id}', [\App\Http\Controllers\TaskController::class, 'taskId'])->name('taskId');
+        Route::post('/end{id}', [\App\Http\Controllers\TaskController::class, 'taskEnd'])->name('taskEnd');
 
+    });
 });
-
-

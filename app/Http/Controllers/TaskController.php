@@ -17,12 +17,14 @@ class TaskController extends Controller
     public $pageTitle;
     public $status;
     public $user;
+    public $userModel;
     public $data;
 
-    public function __construct()
+    public function __construct(Request $request)
     {
+        ($request->session()->get('user')) ? $this->user = $request->session()->get('user')[0] : '';
         $this->task = new Task;
-        $this->user = new User;
+        $this->userModel = new User;
         $this->data = new Data;
         $this->pageTitle = 'page';
 
@@ -33,15 +35,8 @@ class TaskController extends Controller
         ];
     }
 
-    public function taskDo(Request $request)
+    public function taskDo()
     {
-        /*************** user auth ******************/
-        if (!$request->session()->has('user')) {
-            return redirect()->route('login');
-        }
-        $user = $request->session()->get('user')[0];
-        /*************** user auth ******************/
-
         /**************** status ********************/
         if (!empty(Session::get('status'))) {
             $this->status = Session::get('status');
@@ -51,10 +46,10 @@ class TaskController extends Controller
         // page title
         $this->pageTitle = 'Выполняю';
 
-        $tasks = $this->task->getTasksDo($user->id);
+        $tasks = $this->task->getTasksDo($this->user->id);
 
         $data['title'] = $this->pageTitle;
-        $data['user'] = $user;
+        $data['user'] = $this->user;
         $data['tasks'] = $tasks;
         $data['status'] = $this->status;
         $data['breadcrumbs'] = [
@@ -145,7 +140,7 @@ class TaskController extends Controller
 
         $taskId = $this->task->getTaskById($id);
 
-        $test = $this->user::find($user->id);
+        $test = $this->userModel::find($user->id);
 
         $data['title'] = $this->pageTitle;
         $data['user'] = $user;
