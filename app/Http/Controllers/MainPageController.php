@@ -35,10 +35,6 @@ class MainPageController extends Controller
 
     public function index(Request $request)
     {
-        /*************** user auth ******************/
-
-        $user = $request->session()->get('user')[0];
-        /*************** user auth ******************/
         $pageTitle = 'Главная';
 
 
@@ -56,7 +52,7 @@ class MainPageController extends Controller
             ]
         ];
 
-        $data['user'] = $user;
+        $data['user'] = $this->user;
         return view('index', $data);
     }
 }
