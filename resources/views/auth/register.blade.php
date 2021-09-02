@@ -67,20 +67,32 @@
                                 @endforeach
                             </datalist>
                             <input type="hidden"
-                                   value="{{ $test = \App\Models\Organization::getAddressByName($organizationsName[1]) }}">
+                                   value="{{ $test = \App\Models\Organization::getAddressByName($organizationsName[0]) }}">
 
                         </div>
                         <div class="mb-3">
                             <label for="address" class="form-label">Адресс организации:</label>
-                            <input type="text" name="address" class="form-control" id="address">
+                            <input class="form-control" name="address" list="datalistOptionsAddress"
+                                   id="address" placeholder="Начните вводить, чтобы найти ...">
+                            <datalist id="datalistOptionsAddress">
+                                <option class="address" id="addressOption" value="">
+                            </datalist>
                         </div>
                         <div class="mb-3">
                             <label for="housing" class="form-label">Корпус здания:</label>
-                            <input type="text" name="housing" class="form-control" id="housing">
+                            <input class="form-control" name="housing" list="datalistOptionsHousing"
+                                   id="housing" placeholder="Начните вводить, чтобы найти ...">
+                            <datalist id="datalistOptionsHousing">
+                                <option class="housing" id="housingOption" value="">
+                            </datalist>
                         </div>
                         <div class="mb-3">
                             <label for="office" class="form-label">Кабинет:</label>
-                            <input type="text" name="office" class="form-control" id="office">
+                            <input class="form-control" name="office" list="datalistOptionsOffice"
+                                   id="office" placeholder="Начните вводить, чтобы найти ...">
+                            <datalist id="datalistOptionsOffice">
+                                <option class="office" id="officeOption" value="">
+                            </datalist>
                         </div>
 
                         <button type="submit" class="btn btn-outline-success">Регистрация</button>
@@ -95,13 +107,89 @@
         @section('script')
             <script>
                 $(function () {
-                    $('#exampleDataList').on('change', function () {
+
+
+                    $('#exampleDataList').on('input', function () {
+                        let organizationName = document.querySelector('#exampleDataList').value
+                        let address = document.querySelector('#address')
+                        let datalistOptionsAddress = document.querySelector('#datalistOptionsAddress')
+                        let token = $('meta[name="csrf-token"]').attr('content');
                         $.ajax({
                             url: '{{ route('getAddress') }}',
                             type: "POST",
-                            data: {organizationName: organizationName},
-                            success: function () {
+                            data: {
+                                _token: token,
+                                organizationName: organizationName
+                            },
+                            success: function (success) {
+                                while (datalistOptionsAddress.firstChild) {
+                                    datalistOptionsAddress.removeChild(datalistOptionsAddress.lastChild)
+                                }
+                                for (let addressVal of success) {
+                                    datalistOptionsAddress.appendChild(document.createElement('option')).value = addressVal
+                                }
+                            },
+                            error: function () {
+                                address.placeholder = 'false'
+                            },
+                        });
+                    });
 
+                    $('#address').on('input', function () {
+                        let organizationName = document.querySelector('#exampleDataList').value
+                        let address = document.querySelector('#address')
+                        let datalistOptionsAddress = document.querySelector('#datalistOptionsAddress')
+                        let datalistOptionsHousing = document.querySelector('#datalistOptionsHousing')
+                        let token = $('meta[name="csrf-token"]').attr('content');
+                        $.ajax({
+                            url: '{{ route('getHousing') }}',
+                            type: "POST",
+                            data: {
+                                _token: token,
+                                organizationName: organizationName,
+                                organizationAddress: address.value
+                            },
+                            success: function (success) {
+                                while (datalistOptionsHousing.firstChild) {
+                                    datalistOptionsHousing.removeChild(datalistOptionsHousing.lastChild)
+                                }
+                                for (let housingVal of success) {
+
+                                    datalistOptionsHousing.appendChild(document.createElement('option')).value = housingVal
+                                }
+                            },
+                            error: function () {
+                                // datalistOptionsHousing.disabled = true
+                            },
+                        });
+                    });
+
+                    $('#housing').on('input', function () {
+                        let organizationName = document.querySelector('#exampleDataList').value
+                        let housing = document.querySelector('#housing')
+                        let datalistOptionsOffice = document.querySelector('#datalistOptionsOffice')
+
+                        let token = $('meta[name="csrf-token"]').attr('content');
+                        $.ajax({
+                            url: '{{ route('getOffice') }}',
+                            type: "POST",
+                            data: {
+                                _token: token,
+                                organizationName: organizationName,
+                                organizationHousing: housing.value
+                            },
+                            success: function (success) {
+                                console.log(success)
+                                while (datalistOptionsOffice.firstChild) {
+                                    datalistOptionsOffice.removeChild(datalistOptionsOffice.lastChild)
+                                }
+                                for (let officeVal of success) {
+
+                                    datalistOptionsOffice.appendChild(document.createElement('option')).value = officeVal
+                                }
+                            },
+                            error: function () {
+                                // datalistOptionsHousing.disabled = true
                             },
                         });
                     });

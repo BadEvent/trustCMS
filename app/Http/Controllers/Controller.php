@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Data;
 use App\Models\Organization;
 use App\Models\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -16,10 +17,15 @@ class Controller extends BaseController
 
 
     public $organization;
+    /**
+     * @var Data
+     */
+    public $Data;
 
     public function __construct()
     {
         $this->organization = new Organization;
+        $this->Data = new Data;
     }
 
 }

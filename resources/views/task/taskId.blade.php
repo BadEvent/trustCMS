@@ -46,7 +46,7 @@
                 @endif
 
                 <div class="row">
-                    <div class="col-12 col-sm-9">
+                    <div class="col-12 col-lg-9">
                         <div class="page__block">
                             <div class="task__title">
                                 Задача #{{ $taskId[0]->id }}: {{ $taskId[0]->title }}
@@ -61,7 +61,7 @@
                                         <button class="btn btn-primary me-2">
                                             Начать выполнение
                                         </button>
-                                        <button class="btn btn-success" id="save">
+                                        <button class="btn btn-success" id="save" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                             Завершить
                                         </button>
                                     </div>
@@ -80,14 +80,41 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-sm-3 mt-sm-0 mt-3">
+                    <div class="col-12 col-lg-3 mt-sm-0 mt-3">
                         <div class="side_bar__block">
                             test
                         </div>
                     </div>
                 </div>
 
-
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="input-group mb-3">
+                                    <input type="text" class="form-control" placeholder="что-то тут будет">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <input type="text" class="form-control" placeholder="что-то тут будет">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <input type="text" class="form-control" placeholder="что-то тут будет">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <input type="text" class="form-control" placeholder="что-то тут будет">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 {{--                {{ dd($taskId[0]) }}--}}
             </div>
         </main>
@@ -97,6 +124,7 @@
         @section('script')
             <script>
                 $(function () {
+
                     $('#save').on('click', function () {
 
                         $.ajax({

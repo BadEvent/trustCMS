@@ -14,6 +14,29 @@ class Organization extends Model
 
     public static function getAddressByName(string $name)
     {
-        return Organization::where('name', '=', $name)->pluck('address');
+        return self::where('name', '=', $name)
+            ->groupBy('address')
+            ->pluck('address');
+    }
+
+    public static function getHousingByName(string $name)
+    {
+        return self::where('name', '=', $name)
+            ->groupBy('housing')
+            ->pluck('housing');
+    }
+
+    public static function getHousingByNameByAddress(string $name, string $address)
+    {
+        return self::where([['name', '=', $name], ['address', '=', $address]])
+            ->groupBy('housing')
+            ->pluck('housing');
+    }
+
+    public static function getOfficeByNameByHousing(string $name, string $housing)
+    {
+        return self::where([['name', '=', $name], ['housing', '=', $housing]])
+            ->groupBy('office')
+            ->pluck('office');
     }
 }

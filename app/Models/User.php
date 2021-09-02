@@ -53,5 +53,10 @@ class User extends Model
         return $this->hasMany(Task::class, 'implementer_id');
     }
 
+    public function getImplementer()
+    {
+        return $this->where('role_id', '!=', '4')->pluck('id');
+    }
+
 
 }

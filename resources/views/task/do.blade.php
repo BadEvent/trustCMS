@@ -18,7 +18,7 @@
                 </nav>
 
                 <div class="row">
-                    <div class="col-12 col-sm-9">
+                    <div class="col-12 col-lg-9">
                         <div class="page__block">
                             @if($status['status'] == 1)
                                 <div class="alert alert-primary d-flex align-items-center" role="alert">
@@ -107,7 +107,7 @@
                             </table>
                         </div>
                     </div>
-                    <div class="col-12 col-sm-3 mt-sm-0 mt-3">
+                    <div class="col-12 col-lg-3 mt-sm-0 mt-3">
                         <div class="side_bar__block">
                             test
                         </div>

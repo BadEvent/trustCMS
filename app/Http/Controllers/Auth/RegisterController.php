@@ -47,7 +47,7 @@ class RegisterController extends Controller
         return view('auth.register', $data);
     }
 
-    public function registerPost(Request $request)
+    public function registerPost(Request $request): \Illuminate\Http\RedirectResponse
     {
         $userModel = new User;
         $dataModel = new Data;
@@ -100,7 +100,25 @@ class RegisterController extends Controller
 
     public function getAddress(Request $request)
     {
-        dd($request);
-        return $request;
+        if (!$this->organization::getAddressByName($request->organizationName)->count()) {
+            return ['Введите адрес'];
+        }
+        return $this->organization::getAddressByName($request->organizationName);
+    }
+
+    public function getHousing(Request $request)
+    {
+        if (!$this->organization::getHousingByNameByAddress($request->organizationName, $request->organizationAddress)->count()) {
+            return ['Введите корпус'];
+        }
+        return $this->organization::getHousingByNameByAddress($request->organizationName, $request->organizationAddress);
+    }
+
+    public function getOffice(Request $request)
+    {
+        if (!$this->organization::getOfficeByNameByHousing($request->organizationName, $request->organizationHousing)->count()) {
+            return ['Введите кабинет'];
+        }
+        return $this->organization::getOfficeByNameByHousing($request->organizationName, $request->organizationHousing);
     }
 }
