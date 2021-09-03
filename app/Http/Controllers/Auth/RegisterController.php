@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Data;
+use App\Models\Organization;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -75,12 +76,31 @@ class RegisterController extends Controller
             return redirect()->route('register')->with('status', $status);
         }
 
+        //organization
+        $organization = [
+            'name' => $user['organizationName'],
+            'address' => $user['address'],
+            'housing' => $user['housing'],
+            'office' => $user['office'],
+        ];
+        if ($this->organization->getForRegistration($organization))
+        {
+            $organization_id = $this->organization->getForRegistration($organization)->id;
+        }
+
+        if (!$this->organization->getForRegistration($organization)){
+            $this->organization->createData($organization);
+            $organization_id = $this->organization->getLastData();
+        }
+
+
+
         //data
         $userDataFull = [
             'first_name' => $user['firstName'],
             'second_name' => $user['secondName'],
             'phone' => $user['phone'],
-            'organization_id' => 1,
+            'organization_id' => $organization_id,
         ];
         $dataModel->createData($userDataFull);
         $dataId = $dataModel->getLastData();

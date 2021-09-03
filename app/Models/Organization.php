@@ -12,11 +12,31 @@ class Organization extends Model
     public $timestamps = false;
     public $table = 'organization';
 
+    public function createData($organization)
+    {
+        self::insert($organization);
+    }
+
+    public function getLastData()
+    {
+        return self::latest('id')->limit(1)->get();
+    }
+
     public static function getAddressByName(string $name)
     {
         return self::where('name', '=', $name)
             ->groupBy('address')
             ->pluck('address');
+    }
+
+    public function getForRegistration($params)
+    {
+        return self::where([
+            ['name', '=', $params['name']],
+            ['address', '=', $params['address']],
+            ['housing', '=', $params['housing']],
+            ['office', '=', $params['office']]
+        ])->first();
     }
 
     public static function getHousingByName(string $name)

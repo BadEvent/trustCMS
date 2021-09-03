@@ -141,6 +141,7 @@
                         let datalistOptionsAddress = document.querySelector('#datalistOptionsAddress')
                         let datalistOptionsHousing = document.querySelector('#datalistOptionsHousing')
                         let token = $('meta[name="csrf-token"]').attr('content');
+                        let housing = document.querySelector('#housing')
                         $.ajax({
                             url: '{{ route('getHousing') }}',
                             type: "POST",
@@ -154,7 +155,6 @@
                                     datalistOptionsHousing.removeChild(datalistOptionsHousing.lastChild)
                                 }
                                 for (let housingVal of success) {
-
                                     datalistOptionsHousing.appendChild(document.createElement('option')).value = housingVal
                                 }
                             },
@@ -184,7 +184,6 @@
                                     datalistOptionsOffice.removeChild(datalistOptionsOffice.lastChild)
                                 }
                                 for (let officeVal of success) {
-
                                     datalistOptionsOffice.appendChild(document.createElement('option')).value = officeVal
                                 }
                             },
