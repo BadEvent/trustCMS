@@ -14,8 +14,8 @@ class ChangeTaskTable extends Migration
     public function up()
     {
         Schema::table('task', function (Blueprint $table) {
-            $table->longText('comment')->comment('комментарий и окончании');
-            $table->integer('implementer_end_id')->unsigned()->comment('id исполнителя при окончании');
+            $table->longText('comment')->nullable()->comment('комментарий при окончании');
+            $table->integer('implementer_end_id')->unsigned()->nullable()->comment('id исполнителя при окончании');
             $table->foreign('implementer_end_id')->references('id')->on('users');
         });
     }

@@ -13,22 +13,27 @@ class Data extends Model
 
     public function createData($userDataFull)
     {
-        Data::insert($userDataFull);
+        self::insert($userDataFull);
     }
 
     public function getLastData()
     {
-        return Data::latest('id')->limit(1)->get();
+        return self::latest('id')->limit(1)->get();
     }
 
     public function getDataById(int $id)
     {
-        return Data::where('id', '=', $id)->get();
+        return self::where('id', '=', $id)->get();
     }
 
     public function getDataName(int $id)
     {
-        return Data::where('id', '=', $id)->select(['first_name', 'second_name'])->first();
+        return self::where('id', '=', $id)->select(['first_name', 'second_name'])->first();
+    }
+
+    public static function getDataNameStatic(int $id)
+    {
+        return self::where('id', '=', $id)->select(['first_name', 'second_name'])->first();
     }
 
     public function user_data()

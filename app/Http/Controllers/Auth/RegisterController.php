@@ -77,21 +77,7 @@ class RegisterController extends Controller
         }
 
         //organization
-        $organization = [
-            'name' => $user['organizationName'],
-            'address' => $user['address'],
-            'housing' => $user['housing'],
-            'office' => $user['office'],
-        ];
-        if ($this->organization->getForRegistration($organization))
-        {
-            $organization_id = $this->organization->getForRegistration($organization)->id;
-        }
-
-        if (!$this->organization->getForRegistration($organization)){
-            $this->organization->createData($organization);
-            $organization_id = $this->organization->getLastData();
-        }
+        $organization_id = $this->organizationFunc($user);
 
 
 

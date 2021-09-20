@@ -35,8 +35,8 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="{{ route('taskDo') }}">Делаю</a></li>
-                                <li><a class="dropdown-item" href="{{ route('taskHelp') }}">Помогаю</a></li>
-                                <li><a class="dropdown-item" href="{{ route('taskWatch') }}">Наблюдаю</a></li>
+                                <li><a class="dropdown-item disabled" href="{{ route('taskHelp') }}">Помогаю</a></li>
+                                <li><a class="dropdown-item disabled" href="{{ route('taskWatch') }}">Наблюдаю</a></li>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>

@@ -29,4 +29,9 @@ class Task extends Model
     {
         return Task::where('id', '=', $id)->get();
     }
+
+    public function createTask($data)
+    {
+        self::insert($data);
+    }
 }

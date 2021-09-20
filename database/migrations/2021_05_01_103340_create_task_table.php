@@ -23,8 +23,8 @@ class CreateTaskTable extends Migration
             $table->integer('implementer_id')->unsigned()->comment('id исполнителя');
             $table->integer('organization_id')->unsigned()->comment('id организации');
             $table->string('title', 255)->comment('заголовок задачи');
-            $table->longText('data')->comment('вся информация по задаче');
-            $table->integer('priority')->comment('приоритет (1-9, 1 - наивысший, 9 - наименьший)');
+            $table->longText('data')->nullable()->comment('вся информация по задаче');
+            $table->integer('priority')->nullable()->comment('приоритет (1-9, 1 - наивысший, 9 - наименьший)');
         });
 
         Schema::table('task', function ($table) {

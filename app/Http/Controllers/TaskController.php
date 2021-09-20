@@ -3,40 +3,15 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Http\Expansion\ExpansionClass;
-use App\Models\Data;
-use App\Models\Task;
-use App\Models\User;
+use Carbon\Carbon;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
 
 class TaskController extends Controller
 {
-    public $task;
-    public $pageTitle;
-    public $status;
-    public $user;
-    public $userModel;
-    public $data;
-    public $expansion;
-
-    public function __construct(Request $request)
-    {
-        ($request->session()->get('user')) ? $this->user = $request->session()->get('user')[0] : '';
-        $this->task = new Task;
-        $this->userModel = new User;
-        $this->data = new Data;
-        $this->expansion = new ExpansionClass();
-        $this->pageTitle = 'page';
-
-        // status: 1-true, 0-false, 2-dont show.
-        $this->status = [
-            'title' => 'Default',
-            'status' => 2
-        ];
-    }
 
     public function taskDo()
     {
@@ -82,6 +57,7 @@ class TaskController extends Controller
             $this->status = Session::get('status');
         }
         /**************** status ********************/
+
         if (!$this->expansion->adminValidation($this->user->role_id)) {
             $this->status = [
                 'title' => 'Вам запрещено просматривать эту страницу',
@@ -130,6 +106,7 @@ class TaskController extends Controller
         $taskId = $this->task->getTaskById($id);
 
         $test = $this->userModel::find($this->user->id);
+//        dd($test);
 
         $data['title'] = $this->pageTitle;
         $data['user'] = $this->user;
@@ -142,7 +119,12 @@ class TaskController extends Controller
                 'active' => false,
             ],
             [
-                'title' => 'Задачи',
+                'title' => 'Все задачи',
+                'link' => route('taskAll'),
+                'active' => false,
+            ],
+            [
+                'title' => 'Ваши задачи',
                 'link' => route('taskDo'),
                 'active' => false,
             ],
@@ -168,6 +150,7 @@ class TaskController extends Controller
 
         $implementers = $this->userModel->getImplementer();
 
+        $data['organizationsName'] = $this->organization::groupBy('name')->pluck('name');
         $data['title'] = $this->pageTitle;
         $data['user'] = $this->user;
         $data['status'] = $this->status;
@@ -191,6 +174,33 @@ class TaskController extends Controller
         $data['implementers'] = $implementers;
 
         return view('task.taskCreate', $data);
+    }
+
+    public function taskCreatePost(Request $request)
+    {
+        $data = $request->all();
+
+        $organization_id = $this->organizationFunc($data);
+
+        // перевод даты из строки "d/m/Y" (01/01/2000) в дату
+        $date = DateTime::createFromFormat('Y-m-d', $data['deadline'])->format('d-m-Y H:i');
+        // перевод даты в timestamp
+        $date = Carbon::parse($date)->timestamp;
+
+        $taskData = [
+            'title' => $data['title'],
+            'date_add' => Carbon::now()->timestamp,
+            'deadline' => $date,
+            'holder_id' => $data['holder_id'],
+            'implementer_id' => $data['implementer'],
+            'organization_id' => $organization_id,
+            'data' => $data['data'],
+            'priority' => $data['priority'],
+
+        ];
+
+        $this->task->createTask($taskData);
+
     }
 
     public function taskEnd($id, Request $request)

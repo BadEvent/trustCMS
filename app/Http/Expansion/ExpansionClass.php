@@ -2,9 +2,9 @@
 
 namespace App\Http\Expansion;
 
-use Illuminate\Routing\Controller as BaseController;
+use App\Http\Controllers\Controller;
 
-class ExpansionClass extends BaseController
+class ExpansionClass
 {
     public function adminValidation($userRoleId)
     {
