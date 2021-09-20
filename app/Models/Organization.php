@@ -19,7 +19,12 @@ class Organization extends Model
 
     public function getLastData()
     {
-        return self::latest('id')->limit(1)->get();
+        return self::latest('id')->first();
+    }
+
+    public function getById(int $id)
+    {
+        return self::where('id', '=', $id)->first();
     }
 
     public static function getAddressByName(string $name)

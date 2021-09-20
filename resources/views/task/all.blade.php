@@ -52,6 +52,7 @@
                         <th scope="col">Название</th>
                         <th scope="col">Крайний срок</th>
                         <th scope="col">Постановщик</th>
+                        <th scope="col">Статус</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -64,6 +65,9 @@
                             <td>{{ date('d.m.Y H:m:s', $task->deadline) }}</td>
                             <td>{{ $Data->getDataName($task->holder_id)->first_name }}
                                 ({{ $User->getLoginById($task->holder_id)->login }})
+                            </td>
+                            <td>
+                                {{ $task->date_end ? 'Завершена': 'Открыта' }}
                             </td>
                         </tr>
                     @endforeach

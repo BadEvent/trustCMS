@@ -58,7 +58,7 @@ class Controller extends BaseController
 
         if (!$this->organization->getForRegistration($organization)) {
             $this->organization->createData($organization);
-            return $this->organization->getLastData();
+            return $this->organization->getLastData()->id;
         }
     }
 

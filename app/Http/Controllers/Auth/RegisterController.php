@@ -80,7 +80,6 @@ class RegisterController extends Controller
         $organization_id = $this->organizationFunc($user);
 
 
-
         //data
         $userDataFull = [
             'first_name' => $user['firstName'],

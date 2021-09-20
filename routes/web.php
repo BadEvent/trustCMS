@@ -36,6 +36,7 @@ Route::group(['middleware' => ['checkAuth']], function () {
         Route::get('/create', [\App\Http\Controllers\TaskController::class, 'taskCreate'])->name('taskCreate');
         Route::post('/create', [\App\Http\Controllers\TaskController::class, 'taskCreatePost'])->name('taskCreatePost');
         Route::post('/end/{id}', [\App\Http\Controllers\TaskController::class, 'taskEnd'])->name('taskEnd');
+        Route::get('/edit/{id}', [\App\Http\Controllers\TaskController::class, 'taskEdit'])->name('taskEdit');
         Route::get('/{id}', [\App\Http\Controllers\TaskController::class, 'taskId'])->name('taskId');
 
     });

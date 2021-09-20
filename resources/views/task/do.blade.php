@@ -57,6 +57,7 @@
                                     <th scope="col">Название</th>
                                     <th scope="col">Крайний срок</th>
                                     <th scope="col">Постановщик</th>
+                                    <th scope="col">Приоритет</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -67,17 +68,13 @@
                                         <th scope="row">{{ $task->id }}</th>
                                         <td><a href="{{ route('taskId', $task->id) }}">{{ $task->title }}</a></td>
 
-                                        {{--                            {{ dd(1627706122 > time() + 24 * 60 * 60) }}--}}
-                                        @if($task->deadline < time())
+                                        @if($task->deadline < time() or ($task->deadline < (time() + 24 * 60 * 60)))
                                             <td class="">
-
                                                 <div class="deadline__block bg-danger text-white">
                                                     {{ date('d.m.Y H:m:s', $task->deadline) }}
                                                 </div>
-
-
                                             </td>
-                                        @elseif($task->deadline > (time() + 24 * 60 * 60) && $task->deadline < time() + 2 * 24 * 60 * 60)
+                                        @elseif(($task->deadline > (time() + 24 * 60 * 60)) && ($task->deadline < time() + 2 * 24 * 60 * 60))
                                             <td class="">
                                                 <div class="deadline__block bg-warning text-white">
                                                     {{ date('d.m.Y H:m:s', $task->deadline) }}
@@ -100,6 +97,9 @@
                                         <td>
                                             {{ $Data->getDataName($task->holder_id)->second_name }}
                                             {{ $Data->getDataName($task->holder_id)->first_name }}
+                                        </td>
+                                        <td>
+                                            {{ $task->priority }}
                                         </td>
                                     </tr>
                                 @endforeach

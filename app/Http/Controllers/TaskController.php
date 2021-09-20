@@ -200,13 +200,74 @@ class TaskController extends Controller
         ];
 
         $this->task->createTask($taskData);
+        $taskId = $this->task->getLast();
+
+        return redirect()->route('taskId', $taskId);
 
     }
 
-    public function taskEnd($id, Request $request)
+    public function taskEdit(int $id)
     {
+        /**************** status ********************/
+        if (!empty(Session::get('status'))) {
+            $this->status = Session::get('status');
+        }
+        /**************** status ********************/
 
-        dd($request);
+        // page title
+        $this->pageTitle = 'Редактирование задачи №'.$id;
+
+        $implementers = $this->userModel->getImplementer();
+
+        $data['task'] = $this->task->getTaskById($id)[0];
+//        dd($data['task']);
+        $data['organizationsName'] = $this->organization::groupBy('name')->pluck('name');
+        $data['title'] = $this->pageTitle;
+        $data['user'] = $this->user;
+        $data['status'] = $this->status;
+        $data['breadcrumbs'] = [
+            [
+                'title' => 'Главная',
+                'link' => route('index'),
+                'active' => false,
+            ],
+            [
+                'title' => 'Все задачи',
+                'link' => route('taskAll'),
+                'active' => false,
+            ],
+            [
+                'title' => 'Задача №'.$id,
+                'link' => route('taskId', $id),
+                'active' => false,
+            ],
+            [
+                'title' => $this->pageTitle,
+                'link' => route('taskEdit', $id),
+                'active' => true,
+            ],
+        ];
+        $data['implementers'] = $implementers;
+
+        return view('task.edit', $data);
+    }
+
+    public function taskEnd(int $id, Request $request)
+    {
+        $data = $request->all();
+
+        $date = Carbon::now()->timestamp;
+
+        $task = [
+            'comment' => $data['comment'],
+            'date_end' => $date,
+            'implementer_end_id' => $data['implementer_end_id'],
+        ];
+
+        $this->task->updateById($id, $task);
+
+        return redirect()->route('taskId', $id);
+
     }
 
 }

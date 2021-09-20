@@ -1,6 +1,7 @@
 @extends('layouts._layout')
 @section('content')
     <input type="hidden" value="{{ $Data = new \App\Models\Data}}">
+    <input type="hidden" value="{{ $Organization = new \App\Models\Organization()}}">
 
     <div class="wrapper">
         <main class="main">
@@ -53,17 +54,63 @@
                             </div>
                             <div class="row">
                                 <div class="col-8 row-column">
+                                    <div class="">
+                                        Исполнитель:
+                                        <b>{{ $Data->getDataName($taskId[0]->implementer_id)->second_name }}</b>
+                                        <b>{{ $Data->getDataName($taskId[0]->implementer_id)->first_name }}</b>
+                                    </div>
+                                    <div class="">
+                                        Дата создания:
+                                        <b>{{ date('d.m.y H:i', $taskId[0]->date_add) }}</b>
+                                    </div>
+                                    <div class="">
+                                        Приоритет (1-низкий, 4-высокий):
+                                        <b>{{ $taskId[0]->priority }}</b>
+                                    </div>
+                                    <hr/>
+
+                                    <div class="">
+                                        Название организации:
+                                        <b>{{ $Organization->getById($taskId[0]->organization_id)->name }}</b>
+                                    </div>
+                                    <div class="">
+                                        Адресс организации:
+                                        <b>{{ $Organization->getById($taskId[0]->organization_id)->address }}</b>
+                                    </div>
+                                    <div class="">
+                                        Корпус организации:
+                                        <b>{{ $Organization->getById($taskId[0]->organization_id)->housing }}</b>
+                                    </div>
+                                    <div class="">
+                                        Кабинет организации:
+                                        <b>{{ $Organization->getById($taskId[0]->organization_id)->office }}</b>
+                                    </div>
+                                    <hr/>
                                     <div class="task__text">
-                                        {{ $taskId[0]->data }}
+                                        Описание задачи:
+                                        <b>{{ $taskId[0]->data }}</b>
+                                    </div>
+
+                                    <hr/>
+                                    <div class="">
+                                        Завершена с комментарием:
+                                        <b>{{ $taskId[0]->comment }}</b>
                                     </div>
 
                                     <div class="task__buttons">
-                                        <button class="btn btn-primary me-2">
+                                        {!! $taskId[0]->date_end ? '' : '<button class="btn btn-primary me-2 disabled">
                                             Начать выполнение
-                                        </button>
-                                        <button class="btn btn-success" id="save" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                        </button>' !!}
+                                        {!! $taskId[0]->date_end ? '' : '<button class="btn btn-success me-2" id="" data-bs-toggle="modal"
+                                                data-bs-target="#exampleModal">
                                             Завершить
-                                        </button>
+                                        </button>' !!}
+
+                                        {!! $user->role_id != 1 ? '' : '<a href="'. route('taskEdit', $taskId[0]->id) .'"
+                                            class="btn btn-warning">
+                                            Редактировать задачу
+                                        </a>' !!}
+
                                     </div>
                                 </div>
                                 <div class="col-4 task__side_bar">
@@ -76,6 +123,9 @@
                                         {{ $Data->getDataName($taskId[0]->holder_id)->second_name }}
                                         {{ $Data->getDataName($taskId[0]->holder_id)->first_name }}
                                     </div>
+                                    <div>
+                                        {{ $taskId[0]->date_end ? 'Завершена: '.date('d.m.y. H:i', $taskId[0]->date_end).' ' : '' }}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -87,68 +137,40 @@
                     </div>
                 </div>
 
-                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                     aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="input-group mb-3">
-                                    <input type="text" class="form-control" placeholder="что-то тут будет">
+                            <form method="post" action="{{ route('taskEnd', $taskId[0]->id) }}">
+                                {{ csrf_field() }}
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Закрыть задачу</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
                                 </div>
-                                <div class="input-group mb-3">
-                                    <input type="text" class="form-control" placeholder="что-то тут будет">
+                                <div class="modal-body">
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control"
+                                               placeholder="Комментарий закрытия задачи"
+                                               name="comment" id="comment">
+                                        <input type="hidden" value="{{ $user->id }}" name="implementer_end_id"
+                                               id="implementer_end_id">
+                                    </div>
                                 </div>
-                                <div class="input-group mb-3">
-                                    <input type="text" class="form-control" placeholder="что-то тут будет">
+                                <div class="modal-footer">
+                                    <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть
+                                    </button>
+                                    <button type="submit" class="btn btn-primary" id="save">Закрыть задачу</button>
                                 </div>
-                                <div class="input-group mb-3">
-                                    <input type="text" class="form-control" placeholder="что-то тут будет">
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Save changes</button>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>
-                {{--                {{ dd($taskId[0]) }}--}}
             </div>
         </main>
 
-        @endsection
+@endsection
 
-        @section('script')
-            <script>
-                $(function () {
-
-                    $('#save').on('click', function () {
-
-                        $.ajax({
-                            url: '{{ route('taskEnd', $taskId[0]->id) }}',
-                            type: "POST",
-                            data: {title: title, text: text},
-                            headers: {
-                                'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
-                            },
-                            success: function (data) {
-                                $('#addArticle').modal('hide');
-                                $('#articles-wrap').removeClass('hidden').addClass('show');
-                                $('.alert').removeClass('show').addClass('hidden');
-                                var str = '<tr><td>' + data['id'] +
-                                    '</td><td><a href="/article/' + data['id'] + '">' + data['title'] + '</a>' +
-                                    '</td><td><a href="/article/' + data['id'] + '" class="delete" data-delete="' + data['id'] + '">Удалить</a></td></tr>';
-                                $('.table > tbody:last').append(str);
-                            },
-                            error: function (msg) {
-                                alert('Ошибка');
-                            }
-                        });
-                    });
-                })
-            </script>
+@section('script')
 @endsection
 

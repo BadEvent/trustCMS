@@ -34,4 +34,15 @@ class Task extends Model
     {
         self::insert($data);
     }
+
+    public function updateById(int $id, array $data)
+    {
+        self::where('id', '=', $id)->update($data);
+    }
+
+    public function getLast()
+    {
+        return self::orderBy('id', 'desc')->pluck('id')->first();
+    }
+
 }
