@@ -107,11 +107,7 @@
                             </table>
                         </div>
                     </div>
-                    <div class="col-12 col-lg-3 mt-sm-0 mt-3">
-                        <div class="side_bar__block">
-                            test
-                        </div>
-                    </div>
+                    @include('layouts.left_sidebar')
                 </div>
 
             </div>
