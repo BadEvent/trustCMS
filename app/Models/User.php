@@ -9,54 +9,37 @@ class User extends Model
 {
     use HasFactory;
 
-    public $timestamps = false;
+    public $table = 'users';
 
-    protected $table = 'users';
 
-    public function createUser($userData)
+    public function create(array $data): bool
     {
-        User::insert($userData);
+        $user = self::where('login', '=', $data['login'])
+            ->orWhere('email', '=', $data['email'])
+            ->first();
+
+        if ($user == null) {
+            self::insert($data);
+
+            return true;
+        }
+
+        return false;
     }
 
-    public function validationLoginUser($login)
+    public function auth($data)
     {
-        return User::where('login', '=', $login)->count();
-    }
-
-    public function getUserById(int $id = null)
-    {
-        return User::where('id', '=', $id)->first();
-    }
-
-    public function getLoginById(int $id = null)
-    {
-        return User::where('id', '=', $id)->select(['login'])->first();
-    }
-
-    public function validationEmailUser($email)
-    {
-        return User::where('email', '=', $email)->count();
-    }
-
-    public function authUser($data)
-    {
-        return User::where(
+        return self::where(
             [
-                ['login', '=', $data['login']],
+                ['login', '=', $data['username']],
                 ['password', '=', md5($data['password'])],
             ]
-        )->get();
+        )->select(['id', 'login', 'email', 'first_name', 'second_name'])
+            ->first();
     }
 
-    public function task()
+    public static function getByIdStatic(int $id)
     {
-        return $this->hasMany(Task::class, 'implementer_id');
+        return self::where('id', '=', $id)->first();
     }
-
-    public function getImplementer()
-    {
-        return $this->where('role_id', '!=', '4')->pluck('id');
-    }
-
-
 }

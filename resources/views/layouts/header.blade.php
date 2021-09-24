@@ -1,71 +1,145 @@
-<!doctype html>
-<html lang="ru">
+<!DOCTYPE HTML>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="csrf-token" content="{{ csrf_token() }}"/>
-    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/style.min.css') }}">
+    <meta charset="utf-8"/>
     <title>{{ $title }}</title>
+    <meta name="description"
+          content="Metronic admin dashboard live demo. Check out all the features of the admin panel. A large number of settings, additional services and widgets."/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="csrf-token" content="{{ csrf_token() }}"/>
+    <!--begin::Fonts-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700"/>
+    <!--end::Fonts-->
+    <!--begin::Page Vendors Styles(used by this page)-->
+    <link href="{{URL::asset('assets/plugins/custom/fullcalendar/fullcalendar.bundle.css') }}" rel="stylesheet"
+          type="text/css"/>
+    <!--end::Page Vendors Styles-->
+    <!--begin::Global Theme Styles(used by all pages)-->
+    <link href="{{URL::asset('assets/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{URL::asset('assets/plugins/custom/prismjs/prismjs.bundle.css') }}" rel="stylesheet"
+          type="text/css"/>
+    <link href="{{URL::asset('assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css"/>
+    <!--end::Global Theme Styles-->
+    <!--begin::Layout Themes(used by all pages)-->
+    <link href="{{URL::asset('assets/css/themes/layout/header/base/light.css') }}" rel="stylesheet"
+          type="text/css"/>
+    <link href="{{URL::asset('assets/css/themes/layout/header/menu/light.css') }}" rel="stylesheet"
+          type="text/css"/>
+    <link href="{{URL::asset('assets/css/themes/layout/brand/dark.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{URL::asset('assets/css/themes/layout/aside/dark.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{URL::asset('assets/css/pages/wizard/wizard-2.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{URL::asset('assets/plugins/custom/tinymce/skins/ui/oxide/skin.min.css') }}" rel="stylesheet"
+          type="text/css"/>
+{{--    <link rel="stylesheet" href="path/to/plyr.css"/>--}}
+<!--end::Layout Themes-->
+    <link rel="shortcut icon" href="{{ asset('assets/media/logos/favicon.ico') }}"/>
 </head>
-<body>
-
-<header class="header">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container">
-            <a class="navbar-brand" href="#">Trust 3.0</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav flex-fill mb-2 mb-lg-0">
-                    @if($user)
-                        <li class="nav-item">
-                            <a class="nav-link {{ Request::routeIs('index') ? 'active' : '' }}" aria-current="page"
-                               href="{{ route('index') }}">Главная</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle {{ Request::routeIs('taskDo', 'taskHelp', 'taskWatch', 'taskCreate', 'taskAll') ? 'active' : '' }}" href="#" id="navbarDropdown" role="button"
-                               data-bs-toggle="dropdown" aria-expanded="false">
-                                Задачи
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="{{ route('taskDo') }}">Делаю</a></li>
-                                <li><a class="dropdown-item disabled" href="{{ route('taskHelp') }}">Помогаю</a></li>
-                                <li><a class="dropdown-item disabled" href="{{ route('taskWatch') }}">Наблюдаю</a></li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li><a class="dropdown-item" href="{{ route('taskCreate') }}">Создать задачу</a></li>
-                                <li><a class="dropdown-item" href="{{ route('taskAll') }}">Все задачи</a></li>
+<!--end::Head-->
+<!--begin::Body-->
+<body id="kt_body"
+      class="header-fixed header-mobile-fixed subheader-enabled subheader-fixed aside-enabled aside-fixed aside-minimize-hoverable page-loading">
+<!--begin::Main-->
+<!--begin::Header Mobile-->
+<div id="kt_header_mobile" class="header-mobile align-items-center header-mobile-fixed">
+    <!--begin::Logo-->
+    <a href="{{ route('admin') }}">
+        <img alt="Logo" src="{{URL::asset('assets/media/logos/logo-light.png') }}"/>
+    </a>
+    <!--end::Logo-->
+    <!--begin::Toolbar-->
+    <div class="d-flex align-items-center">
+        <!--begin::Aside Mobile Toggle-->
+        <button class="btn p-0 burger-icon burger-icon-left" id="kt_aside_mobile_toggle">
+            <span></span>
+        </button>
+        <!--end::Aside Mobile Toggle-->
+        <!--begin::Header Menu Mobile Toggle-->
+        <button class="btn p-0 burger-icon ml-4" id="kt_header_mobile_toggle">
+            <span></span>
+        </button>
+        <!--end::Header Menu Mobile Toggle-->
+        <!--begin::Topbar Mobile Toggle-->
+        <button class="btn btn-hover-text-primary p-0 ml-2" id="kt_header_mobile_topbar_toggle">
+					<span class="svg-icon svg-icon-xl">
+						<!--begin::Svg Icon | path:assets/media/svg/icons/General/User.svg-->
+						<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+                             height="24px" viewBox="0 0 24 24" version="1.1">
+							<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+								<polygon points="0 0 24 0 24 24 0 24"/>
+								<path
+                                    d="M12,11 C9.790861,11 8,9.209139 8,7 C8,4.790861 9.790861,3 12,3 C14.209139,3 16,4.790861 16,7 C16,9.209139 14.209139,11 12,11 Z"
+                                    fill="#000000" fill-rule="nonzero" opacity="0.3"/>
+								<path
+                                    d="M3.00065168,20.1992055 C3.38825852,15.4265159 7.26191235,13 11.9833413,13 C16.7712164,13 20.7048837,15.2931929 20.9979143,20.2 C21.0095879,20.3954741 20.9979143,21 20.2466999,21 C16.541124,21 11.0347247,21 3.72750223,21 C3.47671215,21 2.97953825,20.45918 3.00065168,20.1992055 Z"
+                                    fill="#000000" fill-rule="nonzero"/>
+							</g>
+						</svg>
+                        <!--end::Svg Icon-->
+					</span>
+        </button>
+        <!--end::Topbar Mobile Toggle-->
+    </div>
+    <!--end::Toolbar-->
+</div>
+<!--end::Header Mobile-->
+<div class="d-flex flex-column flex-root">
+    <!--begin::Page-->
+    <div class="d-flex flex-row flex-column-fluid page">
+        <!--begin::Wrapper-->
+        <div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
+            <!--begin::Header-->
+            <div id="kt_header" class="header header-fixed">
+                <!--begin::Container-->
+                <div class="container-fluid d-flex align-items-stretch justify-content-between">
+                    <!--begin::Header Menu Wrapper-->
+                    <div class="header-menu-wrapper header-menu-wrapper-left" id="kt_header_menu_wrapper">
+                        <!--begin::Header Menu-->
+                        <div id="kt_header_menu" class="header-menu header-menu-mobile header-menu-layout-default">
+                            <!--begin::Header Nav-->
+                            <ul class="menu-nav">
+                                @foreach($breadcrumbs as $breadcrumb)
+                                    @if ($breadcrumb['active'])
+                                        <li class="menu-item menu-item-rel menu-item-active">
+                                            <a href="{{ $breadcrumb['link'] }}"
+                                               class="menu-link">{{ $breadcrumb['title'] }}</a>
+                                        </li>
+                                    @else
+                                        <li class="menu-item menu-item-rel menu-item-active">
+                                            <a style="color: black"
+                                               class="menu-link">{{ $breadcrumb['title'] }}</a>
+                                        </li>
+                                    @endif
+                                @endforeach
                             </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Редактор</a>
-                        </li>
-                        <div class="flex-fill text-align-right">
-                            <li class="nav-item">
-                                <input type="hidden" value="{{ $data = new \App\Models\Data}}">
-                                <a class="nav-link" href="{{ route('logout') }}">Выход ({{ $data->getDataName($user->data_id)->first_name }})</a>
-                            </li>
+                            <!--end::Header Nav-->
                         </div>
+                        <!--end::Header Menu-->
+                    </div>
+                    <!--end::Header Menu Wrapper-->
+                    <!--begin::Topbar-->
+                    <div class="topbar">
+                        <!--begin::User-->
+                        <div class="topbar-item">
 
-                    @else
-                        <li class="nav-item">
-                            <a class="nav-link {{ Request::routeIs('login') ? 'active' : '' }}"
-                               href="{{ route('login') }}">Войти</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ Request::routeIs('register') ? 'active' : '' }}"
-                               href="{{ route('register') }}">Регистрация</a>
-                        </li>
-                    @endif
-                </ul>
+
+                            <div
+                                class="btn btn-icon btn-icon-mobile w-auto btn-clean d-flex align-items-center btn-lg px-2"
+                                id="kt_quick_user_toggle">
+                                <span
+                                    class="text-muted font-weight-bold font-size-base d-none d-md-inline mr-1">Привет, </span>
+                                <span
+                                    class="text-dark-50 font-weight-bolder font-size-base d-none d-md-inline mr-3">{{ $user->first_name }}</span>
+                                <span class="symbol symbol-lg-35 symbol-25 symbol-light-success">
+											<span class="symbol-label font-size-h5 font-weight-bold">
+                                                <img height="40" width="40"
+                                                     src="">
+                                            </span>
+										</span>
+                            </div>
+                        </div>
+                        <!--end::User-->
+                    </div>
+                    <!--end::Topbar-->
+                </div>
+                <!--end::Container-->
             </div>
-        </div>
-    </nav>
-</header>
+            <!--end::Header-->
